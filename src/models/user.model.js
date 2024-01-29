@@ -49,6 +49,8 @@ const userSchema =  new Schema({
     timestamps:true
 })
 
+
+//password is begin encrypted to store it on database in hash format
 userSchema.pre('save', function(next){
 
     if(!this.isModifies('password')) return next()
@@ -56,12 +58,14 @@ userSchema.pre('save', function(next){
     next()
 })
 
-
+//the actual password and hash password is compared in bcrypt to check if both of then are equal
 userSchema.methods.isPasswordCorrect = async 
 function(password){
     return  await bcrypt.compare('password', this.password)
 }
 
+
+//JWT tokens is being generated using jwt.sign method
 userSchema.methods.generateAccessToken=function(){
     return jwt.sign(
         {
@@ -77,6 +81,7 @@ userSchema.methods.generateAccessToken=function(){
     )
 }
 
+//JWT refresh tokens being generated using jwt sign method
 userSchema.methods.generateRefreshToken=function(){
     return jwt.sign(
         {
