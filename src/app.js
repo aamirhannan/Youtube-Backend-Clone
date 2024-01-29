@@ -16,5 +16,11 @@ app.use(express.urlencoded()); //this is needed for express url, different url h
 app.use(express.static("public")) //this is needed for express static, It will fetch static file stored in public folders
 app.use(cookieParser()) //this is needed for handling cookies, it will inject and fetch user cookies securely
 
+//routes import
+import userRouter from './routes/user.routes.js';
+
+//route declaration
+app.use("/api/v1/users", userRouter)
+
 // exports module
 export {app}
